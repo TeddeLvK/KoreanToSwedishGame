@@ -1,0 +1,44 @@
+name: Build Swemon Apps
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 24
+      - run: make dmg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Swemon-macOS
+          path: dist/*.dmg
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 24
+      - shell: pwsh
+        run: |
+          Remove-Item -Recurse -Force build, dist -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force -Path build/classes, build/jar_stage/data, build/jpackage_in, dist | Out-Null
+          $files = Get-ChildItem -Path src/java/com/swedishgame -Filter *.java | ForEach-Object { $_.FullName }
+          javac -encoding UTF-8 -d build/classes $files
+          Copy-Item -Recurse -Force build/classes/* build/jar_stage/
+          Copy-Item -Recurse -Force Assets build/jar_stage/
+          Copy-Item -Force src/data/levels.txt, src/data/glossary.txt build/jar_stage/data/
+          jar --create --file build/jpackage_in/Swemon.jar --main-class com.swedishgame.Main -C build/jar_stage .
+          jpackage --type app-image --name Swemon --app-version 1.0.0 --input build/jpackage_in --main-jar Swemon.jar --main-class com.swedishgame.Main --dest dist --java-options "--enable-native-access=ALL-UNNAMED"
+          Compress-Archive -Force -Path dist/Swemon -DestinationPath dist/Swemon-Windows.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Swemon-Windows
+          path: dist/Swemon-Windows.zip
