@@ -180,11 +180,11 @@ public class MiniGameOverlay {
                     "Palabra compuesta:  " + word + "  (" + parts + ")  ->  ¿Qué significa?"
                 )
                 : Lang.tr(
-                    "Combine (" + parts + ") for "" + meaning + "":",
-                    "(" + parts + ")을(를) 합쳐 "" + meaning + ""을(를) 만들면?",
-                    "ادمج (" + parts + ") لمعنى "" + meaning + "":",
-                    "组合 (" + parts + ") 表示 "" + meaning + "":",
-                    "Combina (" + parts + ") para "" + meaning + "":"
+                    "Combine (" + parts + ") for '" + meaning + "':",
+                    "(" + parts + ")을(를) 합쳐 '" + meaning + "'을(를) 만들면?",
+                    "ادمج (" + parts + ") لمعنى '" + meaning + "':",
+                    "组合 (" + parts + ") 表示 '" + meaning + "':",
+                    "Combina (" + parts + ") para '" + meaning + "':"
                 );
             questions.add(new Question(prompt, word, meaning + " (" + parts + ")", opts, correct));
         }
@@ -232,8 +232,8 @@ public class MiniGameOverlay {
             }
             Collections.shuffle(opts, rng);
             String prompt = svToNative
-                ? Lang.tr("What does  "" + pair[0] + ""  mean?", """ + pair[0] + ""의 뜻은 무엇인가요?", "ما معنى  "" + pair[0] + ""؟", """ + pair[0] + "" 是什么意思？", "¿Qué significa  "" + pair[0] + ""?")
-                : Lang.tr("Which Swedish word means  "" + pair[1] + ""?", """ + pair[1] + ""을(를) 뜻하는 스웨덴어는?", "أي كلمة سويدية تعني  "" + pair[1] + ""؟", "哪个瑞典语词表示  "" + pair[1] + ""？", "¿Qué palabra sueca significa  "" + pair[1] + ""?");
+                ? Lang.tr("What does  '" + pair[0] + "'  mean?", "'" + pair[0] + "'의 뜻은 무엇인가요?", "ما معنى  '" + pair[0] + "'؟", "'" + pair[0] + "' 是什么意思？", "¿Qué significa  '" + pair[0] + "'?")
+                : Lang.tr("Which Swedish word means  '" + pair[1] + "'?", "'" + pair[1] + "'을(를) 뜻하는 스웨덴어는?", "أي كلمة سويدية تعني  '" + pair[1] + "'؟", "哪个瑞典语词表示  '" + pair[1] + "'？", "¿Qué palabra sueca significa  '" + pair[1] + "'?");
             questions.add(new Question(prompt, pair[0], pair[1], opts, correct));
         }
     }
@@ -245,11 +245,11 @@ public class MiniGameOverlay {
         for (int i = 0; i < count; i++) {
             String[] pair = pool.get(i);
             String prompt = Lang.tr(
-                "Type in Swedish:  "" + pair[1] + """,
-                "스웨덴어로 입력:  "" + pair[1] + """,
-                "اكتب بالسويدية:  "" + pair[1] + """,
-                "用瑞典语拼写:  "" + pair[1] + """,
-                "Escribe en sueco:  "" + pair[1] + """
+                "Type in Swedish:  '" + pair[1] + "'",
+                "스웨덴어로 입력:  '" + pair[1] + "'",
+                "اكتب بالسويدية:  '" + pair[1] + "'",
+                "用瑞典语拼写:  '" + pair[1] + "'",
+                "Escribe en sueco:  '" + pair[1] + "'"
             );
             questions.add(new Question(prompt, pair[0], pair[1], Collections.emptyList(), pair[0]));
         }
@@ -529,7 +529,7 @@ public class MiniGameOverlay {
         if (hintShown && !q.answer.isEmpty()) {
             g.setFont(fSub);
             g.setColor(UIUtils.GOLD);
-            g.drawString("Hint: "" + q.answer.substring(0, Math.min(2, q.answer.length())) + "..."  (" + q.answer.length() + " letters)", panel.x + 24, panel.y + 148);
+            g.drawString("Hint: '" + q.answer.substring(0, Math.min(2, q.answer.length())) + "...'  (" + q.answer.length() + " letters)", panel.x + 24, panel.y + 148);
         }
 
         Rectangle inputBox = new Rectangle(panel.x + 24, panel.y + 162, panel.width - 48, 58);
